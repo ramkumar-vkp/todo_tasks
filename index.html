@@ -9,28 +9,28 @@
 
 <body>
     <div class="min-h-screen w-full bg-gray-600 flex flex-col justify-start lg:px-40 md:px-12 px-0">
-        <div class="text-3xl p-5 text-gray-400">TODO Task</div>
+        <div class="text-3xl p-5 text-gray-400 font-thin">TODO Task</div>
 
         <div class="flex flex-col p-5">
-            <input type="text" class="rounded-lg h-10 p-4 bg-gray-300" placeholder="Enter New Task" />
+            <input id="enteredTask" type="text" class="rounded-lg h-10 p-4 bg-gray-300" placeholder="Enter New Task" />
             <div class="flex flex-row mt-4 justify-end">
-                <button id="add" class="bg-blue-500 px-4 py-1 rounded-lg font-mono text-lg mr-2 text-gray-300">Add To
+                <button id="addButton"
+                    class="bg-blue-500 hover:bg-blue-300 px-4 py-1 rounded-lg font-mono text-lg mr-2 text-gray-300 hover:text-gray-500">Add
+                    To
                     List</button>
-                <button id="add" class="bg-red-500 px-4 py-1 rounded-lg font-mono text-lg text-gray-300">Clear Todo
+                <button id="clearButton"
+                    class="bg-red-500 hover:bg-red-300 px-4 py-1 rounded-lg font-mono text-lg text-gray-300 hover:text-gray-500">Clear
+                    Todo
                     List</button>
             </div>
         </div>
 
         <!--Table Layout-->
         <div class="flex flex-col">
-            <div class="flex bg-yellow-500 my-2 rounded-lg">
-                <div class="flex-1 pl-4 px-2 py-2 text-gray-300 font-mono text-xl">New Task</div>
-                <div class="flex-none px-2 py-2 bg-green-600 text-gray-300 font-mono">Completed</div>
-                <div class="flex-none px-2 py-2 bg-red-500 text-gray-300 font-mono rounded-r-lg">Delete</div>
-            </div>
+            <div id="rowWrapper" />
         </div>
     </div>
-
+    <script type="text/javascript" src="todos.js"></script>
 </body>
 
 </html>
