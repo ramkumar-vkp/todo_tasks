@@ -1,13 +1,20 @@
 function todoObj() {
   let todos = [];
-  return (type, taskName) => {
+  return (type, taskName, setToDos) => {
     if (type == "add") {
-      let task = {};
-      task.name = taskName;
-      task.isCompleted = false;
-      task.isDeleted = false;
-      todos.push(task);
-      console.log(`todos : ` + JSON.stringify(todos));
+      let index = todos.findIndex((task) => task.name == taskName);
+      if (index > -1) {
+        alert(
+          `Task already exists, Please complete the old task or rename the new Task`
+        );
+      } else {
+        let task = {};
+        task.name = taskName;
+        task.isCompleted = false;
+        task.isDeleted = false;
+        todos.push(task);
+        console.log(`todos : ` + JSON.stringify(todos));
+      }
     } else if (type == "clear") {
       todos = [];
       console.log(`todos : ` + JSON.stringify(todos));
@@ -21,24 +28,26 @@ function todoObj() {
     } else if (type == "deleted") {
       let index = todos.findIndex((task) => task.name == taskName);
       if (index > -1) {
-        todos[index].isDeleted = true;
+        todos.splice(index, 1);
       }
       console.log(`todos : ` + JSON.stringify(todos));
       showToDos();
     } else if (type == "get") {
       console.log(`GET todos : ` + JSON.stringify(todos));
       return todos;
+    } else if (type == "set") {
+      console.log(`SET todos : ` + JSON.stringify(todos));
+      todos = setToDos;
     }
   };
 }
 
 const todo = new todoObj();
 window.onload = function onLoadSetup() {
-  todo("add", "My Task 1");
-  todo("add", "My Task 2");
-  todo("add", "My Task 3");
-  todo("add", "My Task 4");
-  todo("add", "My Task 5");
+  let localList = localStorage.getItem("todoList");
+  if (localList) {
+    todo("set", "", JSON.parse(localList));
+  }
   showToDos();
 };
 
@@ -75,6 +84,7 @@ var deletedButton = document.getElementById("deletedButton");
 addButton.addEventListener("click", () => {
   if (enteredTask.value) {
     todo("add", enteredTask.value);
+    localStorage.setItem("todoList", JSON.stringify(todo("get")));
   } else {
     alert("Please enter the task");
   }
@@ -83,15 +93,18 @@ addButton.addEventListener("click", () => {
 
 clearButton.addEventListener("click", () => {
   todo("clear");
+  localStorage.setItem("todoList", JSON.stringify(todo("get")));
   showToDos();
 });
 
 function taskCompletedAction(taskName) {
   todo("completed", taskName);
+  localStorage.setItem("todoList", JSON.stringify(todo("get")));
   showToDos();
 }
 
 function taskDeletedAction(taskName) {
   todo("deleted", taskName);
+  localStorage.setItem("todoList", JSON.stringify(todo("get")));
   showToDos();
 }
